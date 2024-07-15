@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-sans
+}
+
+html {
+  font-size: 62.5%;
+}
+
+
+
+.icon-hover-orange:hover {
+  filter: invert(50%) sepia(100%) saturate(1000%) hue-rotate(355deg) brightness(90%) contrast(97%);
+}
