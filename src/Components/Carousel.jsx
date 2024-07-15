@@ -1,19 +1,23 @@
 import { useState } from "react";
 
-const Carousel = ({ images, toggleCarousel, openCarousel }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+const Carousel = ({ images, toggleCarousel, openCarousel, activeIndex, setActiveIndex }) => {
   const nextSlide = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
   const prevSlide = () => {
-    setActiveIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length
-    );
+    setActiveIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
   const changeImage = (index) => {
     setActiveIndex(index);
+  };
+
+  const handleImageClick = (index) => {
+    setActiveIndex(index);
+    if (!openCarousel && window.innerWidth > 768) {
+      toggleCarousel();
+    }
   };
 
   return (
@@ -25,54 +29,46 @@ const Carousel = ({ images, toggleCarousel, openCarousel }) => {
               src={image.main}
               key={index}
               className={`absolute top-0 left-0 w-full h-full transition-transform duration-700 ease-in-out cursor-pointer ${
-                index === activeIndex
-                  ? "translate-x-0"
-                  : "translate-x-full"
+                index === activeIndex ? "translate-x-0" : "translate-x-full"
               } ${
-                index ===
-                (activeIndex - 1 + images.length) % images.length
+                index === (activeIndex - 1 + images.length) % images.length
                   ? "translate-x-[-100%]"
                   : ""
               } md:rounded-[15px]`}
               style={{
-                transform: `translateX(${
-                  100 * (index - activeIndex)
-                }%)`,
+                transform: `translateX(${100 * (index - activeIndex)}%)`,
               }}
               alt={`Slide ${index + 1}`}
-              onClick={() => {
-                if (!openCarousel && window.innerWidth > 768)
-                  toggleCarousel();
-              }}
+              onClick={() => handleImageClick(index)}
             />
           ))}
-          <div
-            className={`absolute flex justify-between w-full top-[50%] translate-y-[-50%] px-[1.6rem]  ${
-              openCarousel ? "md:flex" : "md:hidden"
-            }`}
-          >
-            <button
-              className="bg-white w-[4rem] h-[4rem] flex items-center justify-center rounded-full"
-              onClick={prevSlide}
-            >
-              <img
-                src="/images/icon-previous.svg"
-                alt="Previous"
-                className="mr-[4px]"
-              />
-            </button>
-            <button
-              className="bg-white w-[4rem] h-[4rem] flex items-center justify-center rounded-full"
-              onClick={nextSlide}
-            >
-              <img
-                src="/images/icon-next.svg"
-                alt="Next"
-                className="ml-[4px]"
-              />
-            </button>
-          </div>
         </div>
+      </div>
+      <div
+        className={`absolute flex justify-between w-full top-[50%] translate-y-[-50%] md:translate-y-[-200%]  px-[1.6rem]  ${
+          openCarousel ? "md:flex" : "md:hidden"
+        } md:px-0`}
+      >
+        <button
+          className="bg-white w-[4rem] h-[4rem] flex items-center justify-center rounded-full md:ml-[-2rem]"
+          onClick={prevSlide}
+        >
+          <img
+            src="/images/icon-previous.svg"
+            alt="Previous"
+            className="mr-[4px]"
+          />
+        </button>
+        <button
+          className="bg-white w-[4rem] h-[4rem] flex items-center justify-center rounded-full md:mr-[-2rem]"
+          onClick={nextSlide}
+        >
+          <img
+            src="/images/icon-next.svg"
+            alt="Next"
+            className="ml-[4px]"
+          />
+        </button>
       </div>
       <div className=" justify-between w-full hidden md:flex">
         {images.map((image, index) => (
