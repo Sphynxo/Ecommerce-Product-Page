@@ -13,6 +13,7 @@ export default function Hero({
 }) {
   const [openCarousel, setOpenCarousel] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [popupActiveIndex, setPopupActiveIndex] = useState(0);
 
   const increaseAmount = () => {
     setAmount((prevAmount) => prevAmount + 1);
@@ -34,14 +35,12 @@ export default function Hero({
 
   const toggleCarousel = () => {
     setOpenCarousel(!openCarousel);
-  };
-
-  const handleImageClick = (index) => {
-    setActiveIndex(index);
-    if (!openCarousel && window.innerWidth > 768) {
-      toggleCarousel();
+    if (!openCarousel) {
+      setPopupActiveIndex(activeIndex); 
     }
   };
+
+
 
   return (
     <div className="lg:mt-[5.6rem] lg:flex  pb-[8.8rem] md:px-[8rem] md:flex md:flex-col md:items-center md:gap-[8rem] md:justify-between lg:flex-row xl:px-[21.2rem] xl:gap-[12rem] md:mt-[8rem]">
@@ -68,8 +67,8 @@ export default function Hero({
             images={images}
             toggleCarousel={toggleCarousel}
             openCarousel={openCarousel}
-            activeIndex={activeIndex}
-            setActiveIndex={setActiveIndex}
+            activeIndex={popupActiveIndex}
+            setActiveIndex={setPopupActiveIndex}
           />
         </div>
       </div>
